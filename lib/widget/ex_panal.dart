@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/control/task_control.dart';
-import 'package:flutter_application_2/model/model.dart';
+import 'package:flutter_application_2/model/panal_model.dart';
 
 class ExpansionPanelItem extends StatefulWidget {
   final PanelModel panel;
@@ -17,14 +17,17 @@ class ExpansionPanelItem extends StatefulWidget {
 
 class _ExpansionPanelItemState extends State<ExpansionPanelItem> {
   bool isChecked = false;
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
         child: Container(
-          decoration: BoxDecoration(),
+          decoration: const BoxDecoration(
+            border: Border.fromBorderSide(
+              BorderSide(color: Colors.blue, width: 2),
+            ),
+          ),
           child: ExpansionPanelList(
             dividerColor: Colors.blue,
             expandedHeaderPadding: const EdgeInsets.all(10),
@@ -44,7 +47,7 @@ class _ExpansionPanelItemState extends State<ExpansionPanelItem> {
 
                   return ListTile(
                     contentPadding:
-                        EdgeInsets.only(top: 18, bottom: 18, left: 2),
+                        const EdgeInsets.only(top: 18, bottom: 18, left: 2),
                     title: Text(
                       widget.panel.time,
                       style: const TextStyle(
@@ -57,8 +60,10 @@ class _ExpansionPanelItemState extends State<ExpansionPanelItem> {
                           fontSize: 19,
                           fontWeight: FontWeight.bold,
                           color: completedTasks == totalTasks
-                              ? Colors.teal
-                              : Colors.red),
+                              ? Colors.green
+                              : completedTasks == 0
+                                  ? Colors.grey
+                                  : Colors.orange),
                       completedTasks == totalTasks
                           ? "Completed"
                           : "$completedTasks/$totalTasks Tasks Completed",
@@ -70,11 +75,11 @@ class _ExpansionPanelItemState extends State<ExpansionPanelItem> {
                   child: Column(
                     children: widget.panel.items.map((task) {
                       return Container(
-                        decoration: BoxDecoration(
-                            // border: Border.fromBorderSide(
-                            //   BorderSide(color: Colors.black, width: 1),
-                            // ),
-                            ),
+                        decoration: const BoxDecoration(
+                          border: Border.fromBorderSide(
+                            BorderSide(color: Colors.black, width: 1),
+                          ),
+                        ),
                         child: ListTile(
                           title: Text(
                             task.description,
@@ -89,6 +94,7 @@ class _ExpansionPanelItemState extends State<ExpansionPanelItem> {
                             onChanged: (value) {
                               setState(() {
                                 task.isDone = value!;
+                                TaskController.updatePanel(widget.panel);
                               });
                             },
                           ),
@@ -102,7 +108,6 @@ class _ExpansionPanelItemState extends State<ExpansionPanelItem> {
                                 icon: const Icon(
                                   Icons.edit,
                                   size: 30,
-                                  color: Colors.grey,
                                 ),
                               ),
                               const SizedBox(width: 10),
@@ -184,7 +189,7 @@ class _ExpansionPanelItemState extends State<ExpansionPanelItem> {
             style: TextStyle(fontSize: 22),
           ),
           content: TextField(
-            style: TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 20),
             controller: editingController,
             decoration: const InputDecoration(
               hintText: "Edit this task",
@@ -202,7 +207,9 @@ class _ExpansionPanelItemState extends State<ExpansionPanelItem> {
               onPressed: () {
                 if (editingController.text.isNotEmpty) {
                   setState(() {
-                    TaskController.editTask(task, editingController.text);
+                    TaskController.editTask(
+                        widget.panel, task, editingController.text);
+                    TaskController.updatePanel(widget.panel);
                   });
                   Navigator.of(context).pop();
                 }

@@ -13,14 +13,28 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+  void initState() {
+    super.initState();
+    setState(() {
+      for (var panel in TaskController.panels) {
+        panel.isExpanded = false;
+      }
+      TaskController.loadPanels();
+      for (var panel in TaskController.panels) {
+        panel.isExpanded = false;
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
         Scaffold(
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          backgroundColor: const Color(0xfffefefe),
           appBar: AppBar(
-            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            backgroundColor: const Color(0xfffefefe),
             toolbarHeight: 100,
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,8 +52,7 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       ' ${DateFormat.EEEE().format(DateTime.now())} , ${DateTime.now().day}, ${DateFormat.MMM().format(DateTime.now())} ${DateTime.now().year}',
                       style: const TextStyle(
-                          color: Color.fromARGB(255, 140, 139, 139),
-                          fontSize: 28),
+                          color: Color(0xffc8c8c8), fontSize: 28),
                     ),
                     const SizedBox(width: 23),
                     const Icon(Icons.calendar_today, color: Colors.grey),
@@ -59,6 +72,7 @@ class _HomePageState extends State<HomePage> {
                     TaskController.deleteTask(panel, task);
                     if (panel.items.isEmpty) {
                       TaskController.deletePanel(panel);
+                      setState(() {});
                     }
                   });
                 },
@@ -79,7 +93,7 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: Colors.black,
               padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
+                borderRadius: BorderRadius.circular(22),
               ),
             ),
             onPressed: () {
@@ -100,10 +114,9 @@ class _HomePageState extends State<HomePage> {
                 },
               );
             },
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 Icon(
                   Icons.add,
                   size: 30,

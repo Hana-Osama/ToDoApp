@@ -1,8 +1,16 @@
-class PanelModel {
+import 'package:hive/hive.dart';
+part 'panal_model.g.dart';
+
+@HiveType(typeId: 0)
+class PanelModel extends HiveObject {
+  @HiveField(0)
   List<TaskItem> items;
+  @HiveField(1)
   String time;
+  @HiveField(2)
   bool? isCompleted;
-  bool isExpanded;
+  @HiveField(3)
+  bool isExpanded = false;
 
   PanelModel({
     required this.items,
@@ -12,8 +20,11 @@ class PanelModel {
   });
 }
 
+@HiveType(typeId: 1)
 class TaskItem {
+  @HiveField(0)
   String description;
+  @HiveField(1)
   bool isDone;
 
   TaskItem({required this.description, required this.isDone});

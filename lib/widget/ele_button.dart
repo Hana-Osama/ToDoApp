@@ -4,19 +4,20 @@ class CustomElevatedButton extends StatelessWidget {
   VoidCallback? onPressed;
   final String buttonText;
   IconData? icon;
-  CustomElevatedButton({this.icon, this.onPressed, required this.buttonText});
+  CustomElevatedButton(
+      {super.key, this.icon, this.onPressed, required this.buttonText});
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 2,
-          side: BorderSide(
-            color: Color.fromARGB(255, 255, 255, 255),
+          side: const BorderSide(
+            color: Colors.white,
             width: 2,
             style: BorderStyle.solid,
           ),
           backgroundColor: Colors.black,
-          padding: EdgeInsets.symmetric(horizontal: 80, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(22),
           ),
@@ -26,7 +27,7 @@ class CustomElevatedButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             icon == null
-                ? SizedBox()
+                ? const SizedBox()
                 : Icon(
                     icon,
                     size: 30,
@@ -34,7 +35,7 @@ class CustomElevatedButton extends StatelessWidget {
                   ),
             Text(
               buttonText,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 30),
