@@ -23,11 +23,6 @@ class _ExpansionPanelItemState extends State<ExpansionPanelItem> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
         child: Container(
-          decoration: const BoxDecoration(
-            border: Border.fromBorderSide(
-              BorderSide(color: Colors.blue, width: 2),
-            ),
-          ),
           child: ExpansionPanelList(
             dividerColor: Colors.blue,
             expandedHeaderPadding: const EdgeInsets.all(10),
@@ -75,11 +70,6 @@ class _ExpansionPanelItemState extends State<ExpansionPanelItem> {
                   child: Column(
                     children: widget.panel.items.map((task) {
                       return Container(
-                        decoration: const BoxDecoration(
-                          border: Border.fromBorderSide(
-                            BorderSide(color: Colors.black, width: 1),
-                          ),
-                        ),
                         child: ListTile(
                           title: Text(
                             task.description,
